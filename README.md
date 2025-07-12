@@ -25,7 +25,7 @@ Scribz is a beautiful, modern, Notion-inspired notes app with a dark theme, rich
 
 ### 1. Clone the repo
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Revanthkolla16/Scribz
 cd Scribz
 ```
 
@@ -94,9 +94,4 @@ Scribz/
   backend/      # Express API, MongoDB models, JWT auth
   frontend/     # React app, contexts, components, styles
   README.md     # This file
-```
-
----
-
-## 📝 License
-MIT 
+``` 
