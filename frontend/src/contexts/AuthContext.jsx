@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async (authToken) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/auth/me', {
+      const response = await axios.get('https://scribz-api.onrender.com/api/auth/me', {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       setUser(response.data);
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://scribz-api.onrender.com/api/auth/login', {
         email,
         password
       });
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', {
+      const response = await axios.post('https://scribz-api.onrender.com/api/auth/signup', {
         email,
         password
       });

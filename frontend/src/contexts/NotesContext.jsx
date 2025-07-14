@@ -47,7 +47,7 @@ export const NotesProvider = ({ children }) => {
       // Ensure auth header is set
       setAuthHeader();
       
-      const response = await axios.get(`http://localhost:5000/api/notes?filter=${filter}&search=${search}`);
+      const response = await axios.get(`https://scribz-api.onrender.com/api/notes?filter=${filter}&search=${search}`);
       setNotes(response.data);
     } catch (error) {
       console.error('Error fetching notes:', error);
@@ -69,7 +69,7 @@ export const NotesProvider = ({ children }) => {
 
     try {
       setAuthHeader();
-      const response = await axios.post('http://localhost:5000/api/notes', noteData);
+      const response = await axios.post('https://scribz-api.onrender.com/api/notes', noteData);
       setNotes(prev => [response.data, ...prev]);
       return { success: true, note: response.data };
     } catch (error) {
@@ -91,7 +91,7 @@ export const NotesProvider = ({ children }) => {
 
     try {
       setAuthHeader();
-      const response = await axios.put(`http://localhost:5000/api/notes/${id}`, noteData);
+      const response = await axios.put(`https://scribz-api.onrender.com/api/notes/${id}`, noteData);
       setNotes(prev => prev.map(note => 
         note._id === id ? response.data : note
       ));
@@ -115,7 +115,7 @@ export const NotesProvider = ({ children }) => {
 
     try {
       setAuthHeader();
-      await axios.delete(`http://localhost:5000/api/notes/${id}`);
+      await axios.delete(`https://scribz-api.onrender.com/api/notes/${id}`);
       setNotes(prev => prev.filter(note => note._id !== id));
       return { success: true };
     } catch (error) {
@@ -137,7 +137,7 @@ export const NotesProvider = ({ children }) => {
 
     try {
       setAuthHeader();
-      const response = await axios.patch(`http://localhost:5000/api/notes/${id}/favorite`);
+      const response = await axios.patch(`https://scribz-api.onrender.com/api/notes/${id}/favorite`);
       setNotes(prev => prev.map(note => 
         note._id === id ? response.data : note
       ));
@@ -161,7 +161,7 @@ export const NotesProvider = ({ children }) => {
 
     try {
       setAuthHeader();
-      const response = await axios.patch(`http://localhost:5000/api/notes/${id}/trash`);
+      const response = await axios.patch(`https://scribz-api.onrender.com/api/notes/${id}/trash`);
       setNotes(prev => prev.map(note => 
         note._id === id ? response.data : note
       ));
