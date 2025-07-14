@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsoptions={
-  origin: "https://scribz.vercel.app/",
+  origin: "https://scribz.vercel.app",
   credentials: true
 }
 
