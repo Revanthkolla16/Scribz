@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import {
@@ -21,8 +21,8 @@ import {
   PersonAdd as SignupIcon
 } from '@mui/icons-material';
 
-const LoginModal = ({ open, onClose, onSwitchToSignup }) => {
-  const [isLogin, setIsLogin] = useState(true);
+const LoginModal = ({ open, onClose, onSwitchToSignup, initialMode = 'login' }) => {
+  const [isLogin, setIsLogin] = useState(initialMode === 'signup' ? false : true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,6 +35,11 @@ const LoginModal = ({ open, onClose, onSwitchToSignup }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  // Update isLogin state when initialMode prop changes
+  useEffect(() => {
+    setIsLogin(initialMode === 'signup' ? false : true);
+  }, [initialMode]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -44,31 +49,22 @@ const LoginModal = ({ open, onClose, onSwitchToSignup }) => {
       let result;
       if (isLogin) {
         // Login logic
-        console.log('Attempting login with:', formData.email);
         result = await login(formData.email, formData.password);
-        console.log('Login result:', result);
       } else {
         // Signup logic
-        console.log('Attempting signup with:', formData.email);
         result = await signup(formData.email, formData.password);
-        console.log('Signup result:', result);
       }
 
       if (result.success) {
-        console.log('Authentication successful, navigating to dashboard');
         onClose();
-        console.log('Modal closed, about to navigate...');
         // Add a small delay to ensure state updates
         setTimeout(() => {
-          console.log('Navigating to dashboard now...');
           navigate('/dashboard');
         }, 100);
       } else {
-        console.log('Authentication failed:', result.message);
         setError(result.message || 'Authentication failed');
       }
     } catch (err) {
-      console.error('Authentication error:', err);
       setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
@@ -87,7 +83,7 @@ const LoginModal = ({ open, onClose, onSwitchToSignup }) => {
   const handleClose = () => {
     setError('');
     setFormData({ email: '', password: '' });
-    setIsLogin(true);
+    setIsLogin(initialMode === 'signup' ? false : true);
     onClose();
   };
 

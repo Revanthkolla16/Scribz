@@ -25,41 +25,43 @@ import {
   ArrowForward as ArrowIcon
 } from '@mui/icons-material';
 import LoginModal from './LoginModal';
+import CursorGlow from './CursorTrail';
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('login'); // 'login' or 'signup'
 
   const features = [
     {
-      icon: <NoteIcon sx={{ fontSize: 40, color: '#667eea' }} />,
+      icon: <NoteIcon sx={{ fontSize: 40, color: '#64ffda' }} />,
       title: 'Rich Text Editor',
       description: 'Create beautiful notes with formatting, lists, and code blocks'
     },
     {
-      icon: <FavoriteIcon sx={{ fontSize: 40, color: '#667eea' }} />,
+      icon: <FavoriteIcon sx={{ fontSize: 40, color: '#64ffda' }} />,
       title: 'Favorites & Organization',
       description: 'Mark important notes as favorites and organize with colors'
     },
     {
-      icon: <SearchIcon sx={{ fontSize: 40, color: '#667eea' }} />,
+      icon: <SearchIcon sx={{ fontSize: 40, color: '#64ffda' }} />,
       title: 'Smart Search',
       description: 'Find your notes instantly with powerful search and filters'
     },
     {
-      icon: <PaletteIcon sx={{ fontSize: 40, color: '#667eea' }} />,
+      icon: <PaletteIcon sx={{ fontSize: 40, color: '#64ffda' }} />,
       title: 'Custom Themes',
-      description: 'Switch between light and dark themes for comfortable writing'
+      description: 'Not yet there but will see'
     },
     {
-      icon: <SecurityIcon sx={{ fontSize: 40, color: '#667eea' }} />,
+      icon: <SecurityIcon sx={{ fontSize: 40, color: '#64ffda' }} />,
       title: 'Secure & Private',
       description: 'Your notes are encrypted and only accessible to you'
     },
     {
-      icon: <SpeedIcon sx={{ fontSize: 40, color: '#667eea' }} />,
+      icon: <SpeedIcon sx={{ fontSize: 40, color: '#64ffda' }} />,
       title: 'Lightning Fast',
       description: 'Built with modern tech for instant loading and smooth experience'
     }
@@ -76,6 +78,7 @@ const LandingPage = () => {
       flexDirection: 'column',
       alignItems: 'center'
     }}>
+      <CursorGlow />
       {/* Background Grid */}
       <Box sx={{
         position: 'absolute',
@@ -100,20 +103,39 @@ const LandingPage = () => {
         borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
       }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', color: 'white' }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', color: '#64ffda' }}>
             Scribz
           </Typography>
           <Button 
             color="inherit" 
-            onClick={() => setLoginModalOpen(true)}
+            onClick={() => {
+              setModalMode('login');
+              setLoginModalOpen(true);
+            }}
             startIcon={<LoginIcon />}
-            sx={{ mr: 2, color: 'white', textTransform: 'none' }}
+            sx={{ 
+              mr: 2, 
+              color: '#64ffda', 
+              textTransform: 'none',
+              border: '1px solid rgba(100, 255, 218, 0.3)',
+              borderRadius: '8px',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(100, 255, 218, 0.1)',
+                borderColor: 'rgba(100, 255, 218, 0.5)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 8px 32px rgba(100, 255, 218, 0.15)'
+              }
+            }}
           >
             Login
           </Button>
           <Button 
             variant="contained" 
-            onClick={() => setLoginModalOpen(true)}
+            onClick={() => {
+              setModalMode('signup');
+              setLoginModalOpen(true);
+            }}
             startIcon={<SignupIcon />}
             sx={{
               bgcolor: '#64ffda',
@@ -121,8 +143,11 @@ const LandingPage = () => {
               borderRadius: '8px',
               textTransform: 'none',
               fontWeight: 600,
+              transition: 'all 0.3s ease',
               '&:hover': {
-                bgcolor: '#4cd6b3'
+                bgcolor: '#4cd6b3',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 8px 32px rgba(100, 255, 218, 0.3)'
               }
             }}
           >
@@ -134,11 +159,11 @@ const LandingPage = () => {
       {/* Hero Section */}
       <Box sx={{ 
         width: '100%',
-        height: '100vh',
+        minHeight: '100vh', // changed from 120vh to 100vh
         maxWidth: '1200px',
         px: { xs: 3, md: 4 },
-        pt: { xs: 16, md: 20 }, // Increased top padding to account for navbar
-        pb: { xs: 8, md: 12 }, // Add bottom padding
+        pt: { xs: 14, md: 16 }, // reduced top padding
+        pb: { xs: 8, md: 10 }, // reduced bottom padding
         position: 'relative',
         zIndex: 2,
         textAlign: 'center',
@@ -155,10 +180,14 @@ const LandingPage = () => {
           sx={{ 
             fontWeight: 900,
             fontSize: { xs: '3rem', md: '5rem' },
-            lineHeight: 1,
+            lineHeight: 1.1,
             color: 'white',
-            mb: 4,
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.02em',
+            '& br': {
+              display: 'block',
+              content: '""',
+              marginTop: '0.5rem'
+            }
           }}
         >
           Your Notes,<br />
@@ -166,7 +195,6 @@ const LandingPage = () => {
         </Typography>
         
         <Typography variant="h5" color="rgba(255, 255, 255, 0.7)" paragraph sx={{ 
-          mb: 6, 
           lineHeight: 1.6,
           maxWidth: '600px',
           mx: 'auto',
@@ -176,11 +204,14 @@ const LandingPage = () => {
           and stay productive. Built with the latest technology for a seamless experience.
         </Typography>
         
-        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', mb: 8 }}>
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', mb: 6 }}>
           <Button 
             variant="contained" 
             size="large"
-            onClick={() => setLoginModalOpen(true)}
+            onClick={() => {
+              setModalMode('signup');
+              setLoginModalOpen(true);
+            }}
             endIcon={<ArrowIcon />}
             sx={{ 
               px: 6, 
@@ -199,35 +230,12 @@ const LandingPage = () => {
               transition: 'all 0.3s ease'
             }}
           >
-            Get Started Free
+            Get Started for Free
           </Button>
-          <Button 
-            variant="outlined" 
-            size="large"
-            onClick={() => setLoginModalOpen(true)}
-            sx={{ 
-              px: 6, 
-              py: 2,
-              borderRadius: '12px',
-              textTransform: 'none',
-              fontSize: '1.1rem',
-              fontWeight: 600,
-              borderColor: '#64ffda',
-              color: '#64ffda',
-              '&:hover': {
-                borderColor: '#4cd6b3',
-                backgroundColor: 'rgba(100, 255, 218, 0.1)',
-                transform: 'translateY(-2px)'
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            Try Demo
-            </Button>
         </Box>
 
         {/* Feature Cards */}
-        <Grid container columns={12} spacing={4} sx={{ mt: 8, justifyContent: 'center' }}>
+        <Grid container columns={12} spacing={4} sx={{ mt: 6, justifyContent: 'center' }}>
           {features.map((feature, index) => (
             <Grid key={index} span={4} sx={{ display: 'flex' }}>
               <Card 
@@ -235,15 +243,16 @@ const LandingPage = () => {
                 sx={{ 
                   height: '240px',
                   width: '320px',
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(100, 255, 218, 0.03)',
+                  border: '1px solid rgba(100, 255, 218, 0.1)',
                   borderRadius: '16px',
                   backdropFilter: 'blur(20px)',
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    borderColor: 'rgba(100, 255, 218, 0.3)',
-                    background: 'rgba(255, 255, 255, 0.05)'
+                    borderColor: 'rgba(100, 255, 218, 0.4)',
+                    background: 'rgba(100, 255, 218, 0.08)',
+                    boxShadow: '0 8px 32px rgba(100, 255, 218, 0.15)'
                   }
                 }}
               >
@@ -265,7 +274,7 @@ const LandingPage = () => {
       </Box>
 
       {/* Call to Action Section */}
-      <Box sx={{ py: 8, mt: 8, width: '100%', textAlign: 'center' }}>
+      <Box sx={{ py: 5, mt: 4, width: '100%', textAlign: 'center' }}>
         <Typography variant="h3" component="h2" gutterBottom sx={{ 
           fontWeight: 700,
           color: 'white',
@@ -278,14 +287,17 @@ const LandingPage = () => {
           maxWidth: '600px',
           mx: 'auto'
         }}>
-          Join thousands of users who trust Scribz for their note-taking needs. 
+          Be the first few users who trust Scribz for their note-taking needs. 
           Start organizing your thoughts today.
         </Typography>
-        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', mb: 6 }}>
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
           <Button 
             variant="contained" 
             size="large"
-            onClick={() => setLoginModalOpen(true)}
+            onClick={() => {
+              setModalMode('signup');
+              setLoginModalOpen(true);
+            }}
             endIcon={<ArrowIcon />}
             sx={{ 
               px: 6, 
@@ -309,7 +321,10 @@ const LandingPage = () => {
           <Button 
             variant="outlined" 
             size="large"
-            onClick={() => setLoginModalOpen(true)}
+            onClick={() => {
+              setModalMode('login');
+              setLoginModalOpen(true);
+            }}
             sx={{ 
               px: 6, 
               py: 2,
@@ -322,7 +337,8 @@ const LandingPage = () => {
               '&:hover': {
                 borderColor: '#4cd6b3',
                 backgroundColor: 'rgba(100, 255, 218, 0.1)',
-                transform: 'translateY(-2px)'
+                transform: 'translateY(-2px)',
+                boxShadow: '0 8px 32px rgba(100, 255, 218, 0.15)'
               },
               transition: 'all 0.3s ease'
             }}
@@ -333,7 +349,7 @@ const LandingPage = () => {
       </Box>
 
       {/* Footer */}
-      <Box sx={{ py: 6, mt: 4, width: '100%' }}>
+      <Box sx={{ py: 4, mt: 2, width: '100%' }}>
         <Container maxWidth="lg">
           <Typography variant="body2" align="center" color="rgba(255, 255, 255, 0.5)">
             © 2025 Scribz
@@ -345,6 +361,7 @@ const LandingPage = () => {
       <LoginModal 
         open={loginModalOpen}
         onClose={() => setLoginModalOpen(false)}
+        initialMode={modalMode}
       />
     </Box>
   );

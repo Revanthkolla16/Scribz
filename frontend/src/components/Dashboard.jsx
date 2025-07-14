@@ -94,6 +94,7 @@ const Dashboard = () => {
       minHeight: '100vh',
       bgcolor: '#0a0a0a',
       position: 'relative',
+      justifyContent: 'space-between',
       overflow: 'hidden'
     }}>
       {/* Background Grid */}
@@ -116,67 +117,138 @@ const Dashboard = () => {
         elevation={0}
         sx={{
           width: '100%',
-          bgcolor: 'rgba(10, 10, 10, 0.8)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+          bgcolor: 'rgba(30,32,38,0.85)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1.5px solid rgba(100,255,218,0.08)',
+          boxShadow: '0 2px 16px 0 rgba(100,255,218,0.04)',
+          borderRadius: 0,
           zIndex: 1200
         }}
       >
-        <Toolbar sx={{ gap: 2 }}>
+        <Toolbar sx={{ gap: 2, minHeight: 72, position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
+          {/* Logo Left */}
           <Typography variant="h6" noWrap component="div" sx={{ 
             fontWeight: 'bold', 
             color: '#64ffda',
-            minWidth: 'fit-content'
+            minWidth: 'fit-content',
+            letterSpacing: '-0.01em',
+            ml: 1,
+            zIndex: 2
           }}>
             Scribz
           </Typography>
-          
-          {/* Filter Buttons */}
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            <Chip
-              icon={<AllIcon />}
-              label="All"
-              onClick={() => handleFilterChange('all')}
-              sx={{
-                bgcolor: currentFilter === 'all' ? 'rgba(100, 255, 218, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-                color: currentFilter === 'all' ? '#64ffda' : 'rgba(255, 255, 255, 0.7)',
-                border: currentFilter === 'all' ? '1px solid rgba(100, 255, 218, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
-                '&:hover': {
-                  bgcolor: 'rgba(100, 255, 218, 0.1)',
-                  color: '#64ffda'
-                }
-              }}
-            />
-            <Chip
-              icon={<FavoriteIcon />}
-              label="Favorites"
-              onClick={() => handleFilterChange('favorites')}
-              sx={{
-                bgcolor: currentFilter === 'favorites' ? 'rgba(100, 255, 218, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-                color: currentFilter === 'favorites' ? '#64ffda' : 'rgba(255, 255, 255, 0.7)',
-                border: currentFilter === 'favorites' ? '1px solid rgba(100, 255, 218, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
-                '&:hover': {
-                  bgcolor: 'rgba(100, 255, 218, 0.1)',
-                  color: '#64ffda'
-                }
-              }}
-            />
-            <Chip
-              icon={<DeleteIcon />}
-              label="Trash"
-              onClick={() => handleFilterChange('trash')}
-              sx={{
-                bgcolor: currentFilter === 'trash' ? 'rgba(100, 255, 218, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-                color: currentFilter === 'trash' ? '#64ffda' : 'rgba(255, 255, 255, 0.7)',
-                border: currentFilter === 'trash' ? '1px solid rgba(100, 255, 218, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
-                '&:hover': {
-                  bgcolor: 'rgba(100, 255, 218, 0.1)',
-                  color: '#64ffda'
-                }
-              }}
-            />
+          {/* Filter Buttons Centered Absolutely */}
+          <Box sx={{
+            position: 'absolute',
+            left: '45%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1
+          }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Box
+                component="button"
+                onClick={() => handleFilterChange('all')}
+                sx={{
+                  background: 'none !important',
+                  border: 'none !important',
+                  outline: 'none !important',
+                  boxShadow: 'none !important',
+                  color: currentFilter === 'all' ? '#64ffda' : 'rgba(255,255,255,0.7)',
+                  fontWeight: 500,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  marginRight: 3,
+                  marginLeft: 0,
+                  padding: 0,
+                  borderBottom: currentFilter === 'all' ? '2px solid #64ffda' : '2px solid transparent',
+                  transition: 'color 0.2s, border-bottom 0.2s',
+                  pb: '2px',
+                  '&:hover': {
+                    color: '#64ffda',
+                  },
+                  '&:focus': {
+                    color: '#64ffda',
+                    borderBottom: '2px solid #64ffda',
+                  },
+                  '&:active': {
+                    background: 'none',
+                  }
+                }}
+              >
+                All
+              </Box>
+              <Box
+                component="button"
+                onClick={() => handleFilterChange('favorites')}
+                sx={{
+                  background: 'none !important',
+                  border: 'none !important',
+                  outline: 'none !important',
+                  boxShadow: 'none !important',
+                  color: currentFilter === 'favorites' ? '#64ffda' : 'rgba(255,255,255,0.7)',
+                  fontWeight: 500,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  marginRight: 3,
+                  marginLeft: 0,
+                  padding: 0,
+                  borderBottom: currentFilter === 'favorites' ? '2px solid #64ffda' : '2px solid transparent',
+                  transition: 'color 0.2s, border-bottom 0.2s',
+                  pb: '2px',
+                  '&:hover': {
+                    color: '#64ffda',
+                  },
+                  '&:focus': {
+                    color: '#64ffda',
+                    borderBottom: '2px solid #64ffda',
+                  },
+                  '&:active': {
+                    background: 'none',
+                  }
+                }}
+              >
+                Favorites
+              </Box>
+              <Box
+                component="button"
+                onClick={() => handleFilterChange('trash')}
+                sx={{
+                  background: 'none !important',
+                  border: 'none !important',
+                  outline: 'none !important',
+                  boxShadow: 'none !important',
+                  color: currentFilter === 'trash' ? '#64ffda' : 'rgba(255,255,255,0.7)',
+                  fontWeight: 500,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  marginRight: 3,
+                  marginLeft: 0,
+                  padding: 0,
+                  borderBottom: currentFilter === 'trash' ? '2px solid #64ffda' : '2px solid transparent',
+                  transition: 'color 0.2s, border-bottom 0.2s',
+                  pb: '2px',
+                  '&:hover': {
+                    color: '#64ffda',
+                  },
+                  '&:focus': {
+                    color: '#64ffda',
+                    borderBottom: '2px solid #64ffda',
+                  },
+                  '&:active': {
+                    background: 'none',
+                  }
+                }}
+              >
+                Trash
+              </Box>
+            </Box>
           </Box>
           
+          {/* Spacer for right alignment */}
           <Box sx={{ flexGrow: 1 }} />
           
           <TextField
@@ -186,37 +258,50 @@ const Dashboard = () => {
             onChange={handleSearch}
             sx={{ 
               mr: 2, 
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(255,255,255,0.04)',
               borderRadius: '12px',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(12px)',
+              border: '1.5px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 1px 4px 0 rgba(100,255,218,0.04)',
               '& .MuiOutlinedInput-root': {
                 color: 'white',
+                fontWeight: 500,
+                fontSize: '1.1rem',
+                borderRadius: '12px',
+                background: 'none',
                 '& fieldset': {
                   borderColor: 'transparent',
                 },
                 '&:hover fieldset': {
-                  borderColor: 'rgba(102, 126, 234, 0.3)',
+                  borderColor: 'rgba(102,126,234,0.18)',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#667eea',
+                  borderColor: '#64ffda',
                 },
               },
               '& .MuiInputLabel-root': {
-                color: 'rgba(255, 255, 255, 0.7)',
+                color: 'rgba(255,255,255,0.7)',
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+                  <SearchIcon sx={{ color: 'rgba(255,255,255,0.7)' }} />
                 </InputAdornment>
               ),
             }}
           />
           
           <Tooltip title="Logout">
-            <IconButton color="inherit" onClick={handleLogout}>
+            <IconButton color="inherit" onClick={handleLogout} sx={{
+              color: '#64ffda',
+              bgcolor: 'rgba(100,255,218,0.08)',
+              borderRadius: '10px',
+              ml: 1,
+              '&:hover': {
+                bgcolor: 'rgba(100,255,218,0.16)'
+              }
+            }}>
               <LogoutIcon />
             </IconButton>
           </Tooltip>
@@ -227,13 +312,16 @@ const Dashboard = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 4,
+          p: { xs: 2, md: 4 },
           width: '100%',
-          mt: 8,
+          mt: 10,
           position: 'relative',
           zIndex: 1,
-          minHeight: 'calc(100vh - 64px)',
-          background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%)'
+          minHeight: 'calc(100vh - 72px)',
+          background: 'linear-gradient(135deg, rgba(10,10,10,0.95) 0%, rgba(20,20,20,0.95) 100%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
         {notesLoading ? (
@@ -246,7 +334,7 @@ const Dashboard = () => {
             gap: 2
           }}>
             <CircularProgress sx={{ color: '#64ffda' }} />
-            <Typography variant="h5" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.7)' }}>
               Loading your notes...
             </Typography>
           </Box>
@@ -260,14 +348,14 @@ const Dashboard = () => {
             gap: 3
           }}>
             <Typography variant="h4" sx={{ 
-              color: 'rgba(255, 255, 255, 0.9)',
+              color: 'rgba(255,255,255,0.9)',
               fontWeight: 600,
               mb: 2
             }}>
               Welcome to Scribz!
             </Typography>
             <Typography variant="h6" sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'rgba(255,255,255,0.6)',
               textAlign: 'center',
               maxWidth: '400px'
             }}>
@@ -275,9 +363,9 @@ const Dashboard = () => {
             </Typography>
           </Box>
         ) : (
-          <Grid container columns={12} spacing={3}>
+          <Grid container columns={12} spacing={4} sx={{ mt: 1, width: '100%', maxWidth: '1400px', mx: 'auto' }}>
             {notes.map((note) => (
-              <Grid key={note._id} span={3}>
+              <Grid key={note._id} span={3} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <NoteCard 
                   note={note} 
                   onEdit={() => handleEditNote(note)}
@@ -293,16 +381,18 @@ const Dashboard = () => {
           onClick={handleCreateNote}
           sx={{
             position: 'fixed',
-            bottom: 16,
-            right: 16,
+            bottom: 24,
+            right: 24,
             bgcolor: '#64ffda',
             color: '#0a0a0a',
+            borderRadius: '16px',
+            boxShadow: '0 4px 24px 0 rgba(100,255,218,0.18)',
             '&:hover': {
               bgcolor: '#4cd6b3',
-              transform: 'scale(1.1)',
-              boxShadow: '0 10px 25px rgba(100, 255, 218, 0.3)'
+              transform: 'scale(1.08)',
+              boxShadow: '0 10px 25px rgba(100,255,218,0.22)'
             },
-            transition: 'all 0.3s ease',
+            transition: 'all 0.3s cubic-bezier(.4,2,.6,1)',
             zIndex: 1200
           }}
         >

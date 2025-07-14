@@ -5,7 +5,8 @@ import {
   CardActions,
   Typography,
   IconButton,
-  Box
+  Box,
+  Button
 } from '@mui/material';
 import {
   Favorite as FavoriteIcon,
@@ -16,7 +17,7 @@ import {
 import { useNotes } from '../contexts/NotesContext.jsx';
 
 const NoteCard = ({ note, onEdit }) => {
-  const { toggleFavorite, toggleTrash } = useNotes();
+  const { toggleFavorite, toggleTrash, deleteNote, filterNotes, currentFilter, searchQuery } = useNotes();
 
   const handleFavorite = async () => {
     await toggleFavorite(note._id);
@@ -24,6 +25,17 @@ const NoteCard = ({ note, onEdit }) => {
 
   const handleTrash = async () => {
     await toggleTrash(note._id);
+    filterNotes(currentFilter, searchQuery);
+  };
+
+  const handleRestore = async () => {
+    await toggleTrash(note._id);
+    filterNotes(currentFilter, searchQuery);
+  };
+
+  const handleDeletePermanently = async () => {
+    await deleteNote(note._id);
+    filterNotes(currentFilter, searchQuery);
   };
 
   const handleEdit = () => {
@@ -149,48 +161,105 @@ const NoteCard = ({ note, onEdit }) => {
         flexShrink: 0,
         height: '60px'
       }}>
-        <IconButton 
-          size="small" 
-          onClick={handleFavorite}
-          color={note.isFavorite ? 'primary' : 'default'}
-          sx={{ 
-            color: note.isFavorite ? '#64ffda' : 'rgba(255, 255, 255, 0.7)',
-            '&:hover': {
-              color: note.isFavorite ? '#64ffda' : 'white',
-              bgcolor: 'rgba(255, 255, 255, 0.1)'
-            }
-          }}
-        >
-          {note.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </IconButton>
-        
-        <IconButton 
-          size="small" 
-          onClick={handleEdit} 
-          sx={{ 
-            color: 'rgba(255, 255, 255, 0.7)',
-            '&:hover': {
-              color: 'white',
-              bgcolor: 'rgba(255, 255, 255, 0.1)'
-            }
-          }}
-        >
-          <EditIcon />
-        </IconButton>
-
-        <IconButton 
-          size="small" 
-          onClick={handleTrash} 
-          sx={{ 
-            color: 'rgba(255, 255, 255, 0.7)',
-            '&:hover': {
-              color: '#f44336',
-              bgcolor: 'rgba(244, 67, 54, 0.1)'
-            }
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
+        {note.isTrashed ? (
+          <Box sx={{ display: 'flex', gap: 1.5, ml: 'auto' }}>
+            <Button
+              size="small"
+              disableElevation
+              onClick={handleRestore}
+              sx={{
+                minWidth: 0,
+                px: 2,
+                fontWeight: 600,
+                borderRadius: '999px',
+                color: '#64ffda',
+                background: 'rgba(100,255,218,0.08)',
+                boxShadow: '0 1px 8px 0 rgba(100,255,218,0.08)',
+                textTransform: 'none',
+                fontSize: '0.95rem',
+                letterSpacing: 0,
+                transition: 'background 0.18s, color 0.18s',
+                '&:hover': {
+                  background: 'rgba(100,255,218,0.18)',
+                  color: '#64ffda',
+                  boxShadow: '0 2px 12px 0 rgba(100,255,218,0.16)'
+                },
+                border: 'none',
+              }}
+            >
+              Restore
+            </Button>
+            <Button
+              size="small"
+              disableElevation
+              onClick={handleDeletePermanently}
+              sx={{
+                minWidth: 0,
+                px: 2,
+                fontWeight: 600,
+                borderRadius: '999px',
+                color: '#f44336',
+                background: 'rgba(244,67,54,0.08)',
+                boxShadow: '0 1px 8px 0 rgba(244,67,54,0.08)',
+                textTransform: 'none',
+                fontSize: '0.95rem',
+                letterSpacing: 0,
+                transition: 'background 0.18s, color 0.18s',
+                '&:hover': {
+                  background: 'rgba(244,67,54,0.18)',
+                  color: '#f44336',
+                  boxShadow: '0 2px 12px 0 rgba(244,67,54,0.16)'
+                },
+                border: 'none',
+              }}
+            >
+              Delete
+            </Button>
+          </Box>
+        ) : (
+          <>
+            <IconButton 
+              size="small" 
+              onClick={handleFavorite}
+              color={note.isFavorite ? 'primary' : 'default'}
+              sx={{ 
+                color: note.isFavorite ? '#64ffda' : 'rgba(255, 255, 255, 0.7)',
+                '&:hover': {
+                  color: note.isFavorite ? '#64ffda' : 'white',
+                  bgcolor: 'rgba(255, 255, 255, 0.1)'
+                }
+              }}
+            >
+              {note.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
+            <IconButton 
+              size="small" 
+              onClick={handleEdit} 
+              sx={{ 
+                color: 'rgba(255, 255, 255, 0.7)',
+                '&:hover': {
+                  color: 'white',
+                  bgcolor: 'rgba(255, 255, 255, 0.1)'
+                }
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton 
+              size="small" 
+              onClick={handleTrash} 
+              sx={{ 
+                color: 'rgba(255, 255, 255, 0.7)',
+                '&:hover': {
+                  color: '#f44336',
+                  bgcolor: 'rgba(244, 67, 54, 0.1)'
+                }
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </>
+        )}
       </CardActions>
     </Card>
   );

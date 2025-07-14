@@ -13,11 +13,7 @@ import './App.css';
 // Wrapper component to conditionally render NotesProvider
 const AuthenticatedApp = () => {
   const { user, loading } = useAuth();
-
-  console.log('AuthenticatedApp: Current state:', { user: user ? 'logged in' : 'not logged in', loading });
-
   if (loading) {
-    console.log('AuthenticatedApp: Showing loading state');
     return (
       <div style={{ 
         display: 'flex', 
@@ -30,9 +26,6 @@ const AuthenticatedApp = () => {
       </div>
     );
   }
-
-  console.log('AuthenticatedApp: Rendering routes, user:', user ? 'present' : 'not present');
-
   return (
     <div className="App">
       <Routes>
